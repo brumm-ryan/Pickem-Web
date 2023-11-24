@@ -3,6 +3,8 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { config } from "../config/dev";
 
+console.log(config);
+
 // Initialize Firebase
 const app = initializeApp(config.firebaseConfig);
 

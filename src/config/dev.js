@@ -1,7 +1,7 @@
 import { defaultConfig } from "../config/default";
 
 const config = {
-    API_URL: process.env.API_URL ? process.env.API_URL : defaultConfig.API_URL,
+    API_URL: Boolean(process.env.API_URL) ? process.env.API_URL : defaultConfig.API_URL,
     firebaseConfig: {
         apiKey: process.env.API_KEY ? process.env.API_KEY : defaultConfig.firebaseConfig.apiKey,
         authDomain: process.env.AUTH_DOMAIN ? process.env.AUTH_DOMAIN : defaultConfig.firebaseConfig.authDomain,
