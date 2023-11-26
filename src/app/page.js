@@ -3,11 +3,12 @@ import React, { useState, useEffect } from 'react';
 import {onAuthStateChanged} from "firebase/auth";
 import { auth } from '../firebase/firebase';
 import {useRouter} from "next/navigation";
+import {useUser} from "@/context/UserContext";
 
 const Landing = () => {
 
     const router = useRouter();
-    const [user, setUser] = useState({});
+    const { user, updateUser } = useUser();
     const [token, setToken] = useState({});
 
     useEffect(() => {
@@ -25,12 +26,12 @@ const Landing = () => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 const uid = user.uid;
-                setUser(user);
+                updateUser(user);
                 user.getIdToken().then(token => setToken(token));
                 console.log("uid", uid);
             } else {
                 console.log("user is signed out");
-                setUser({});
+                updateUser({});
                 setToken(null);
                 router.push("/sign-in");
             }

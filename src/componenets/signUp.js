@@ -5,6 +5,7 @@ import { auth } from '../firebase/firebase';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import nextConfig from "/next.config";
+const axios = require('axios').default;
 import {
     Box,
     Button,
@@ -16,6 +17,7 @@ import {
     ThemeProvider,
     Typography
 } from "@mui/material";
+import {getHeaders} from "@/appUtils";
 
 export const Signup = () => {
     const router = useRouter()
@@ -35,15 +37,24 @@ export const Signup = () => {
                 // Signed in
                 const user = userCredential.user;
                 console.log(user);
-                router.push("/home")
-                // ...
+                createUser(user.uid).then(() => {
+                    router.push("/home");
+                });
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 console.log(errorCode, errorMessage);
-                // ..
             });
+    }
+
+    const createUser = async (externalId) => {
+        return axios.post(`${nextConfig.env.API_URL}/users`, {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            externalId: externalId
+        }, await getHeaders());
     }
 
     return (
