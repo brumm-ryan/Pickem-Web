@@ -1,9 +1,9 @@
-import { Login } from "@/componenets/login";
+import { SignIn } from "@/componenets/signIn";
 
 export default function LoginPage() {
     return (
         <main>
-            <Login></Login>
+            <SignIn></SignIn>
         </main>
     )
 }

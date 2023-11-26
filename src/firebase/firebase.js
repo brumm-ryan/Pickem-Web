@@ -3,8 +3,6 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import nextConfig from "/next.config";
 
-console.log(nextConfig.env.firebaseConfig);
-
 const firebaseConfig = {
     apiKey: nextConfig.env.API_KEY,
     authDomain: nextConfig.env.AUTH_DOMAIN,

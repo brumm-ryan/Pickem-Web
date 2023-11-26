@@ -3,13 +3,10 @@ import React, { useState, useEffect } from 'react';
 import {onAuthStateChanged} from "firebase/auth";
 import { auth } from '../firebase/firebase';
 import {useRouter} from "next/navigation";
-import {createTheme, ThemeProvider} from "@mui/material";
-import HomePage from "@/componenets/home";
 
-const Home = () => {
+const Landing = () => {
 
     const router = useRouter();
-    const defaultTheme = createTheme();
     const [user, setUser] = useState({});
     const [token, setToken] = useState({});
 
@@ -27,30 +24,23 @@ const Home = () => {
     useEffect(()=>{
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // User is signed in, see docs for a list of available properties
-                // https://firebase.google.com/docs/reference/js/firebase.User
                 const uid = user.uid;
                 setUser(user);
-                // ...
                 user.getIdToken().then(token => setToken(token));
                 console.log("uid", uid);
             } else {
-                // User is signed out
-                // ...
-                console.log("user is logged out");
+                console.log("user is signed out");
                 setUser({});
                 setToken(null);
-                router.push("/login");
+                router.push("/sign-in");
             }
         });
 
     }, []);
 
     return (
-        <ThemeProvider theme={defaultTheme}>
-            <HomePage user={user}></HomePage>
-        </ThemeProvider>
+        <div></div>
     )
 }
 
-export default Home
+export default Landing

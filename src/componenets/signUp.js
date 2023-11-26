@@ -2,8 +2,9 @@
 import React, {useState} from 'react';
 import {  createUserWithEmailAndPassword  } from 'firebase/auth';
 import { auth } from '../firebase/firebase';
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import nextConfig from "/next.config";
 import {
     Box,
     Button,
@@ -34,7 +35,7 @@ export const Signup = () => {
                 // Signed in
                 const user = userCredential.user;
                 console.log(user);
-                router.push("/")
+                router.push("/home")
                 // ...
             })
             .catch((error) => {
@@ -125,7 +126,7 @@ export const Signup = () => {
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="/login" variant="body2">
+                                <Link href="/sign-in" variant="body2">
                                     Already have an account? Log in
                                 </Link>
                             </Grid>

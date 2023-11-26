@@ -1,8 +1,7 @@
 import PersistentDrawerLeft from "@/componenets/drawer";
-import {useEffect} from "react";
 
 
-export const HomePage = (props) => {
+export const Home = (props) => {
     const user = props?.user;
 
     return(
@@ -10,4 +9,4 @@ export const HomePage = (props) => {
     )
 }
 
-export default HomePage
+export default Home

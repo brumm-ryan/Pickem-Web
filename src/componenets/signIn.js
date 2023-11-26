@@ -15,14 +15,14 @@ import {
     Typography
 } from "@mui/material";
 
-export const Login = () => {
+export const SignIn = () => {
     const router = useRouter()
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [user, setUser] = useState({});
     const defaultTheme = createTheme();
 
-    const onLogin = (e) => {
+    const onSignIn = (e) => {
         e.preventDefault();
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
@@ -30,7 +30,7 @@ export const Login = () => {
                 const user = userCredential.user;
                 setUser(user);
                 console.log(user);
-                router.push("/")
+                router.push("/home");
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -55,7 +55,7 @@ export const Login = () => {
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
-                    <Box component="form" onSubmit={onLogin} noValidate sx={{ mt: 1 }}>
+                    <Box component="form" onSubmit={onSignIn} noValidate sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
                             required
@@ -97,7 +97,7 @@ export const Login = () => {
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="/signup" variant="body2">
+                                <Link href="/sign-up" variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>
@@ -109,4 +109,4 @@ export const Login = () => {
     );
 }
 
-export default Login
+export default SignIn
