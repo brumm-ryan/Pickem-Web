@@ -16,12 +16,13 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import AddIcon from '@mui/icons-material/Add';
 import { signOut } from 'firebase/auth';
 import {auth} from "@/firebase/firebase";
 import {useRouter} from "next/navigation";
 import LogoutIcon from '@mui/icons-material/Logout';
+import {useUser} from "@/context/UserContext";
+import TeamOverview from "@/componenets/teamOverview";
 
 const drawerWidth = 240;
 
@@ -74,6 +75,8 @@ export default function PersistentDrawerLeft() {
     const theme = useTheme();
     const router = useRouter();
     const [open, setOpen] = React.useState(false);
+    const { userInfo, updateUserInfo, teams, updateTeams  } = useUser();
+    const [selectedTeam, setSelectedTeam] = React.useState(null);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -84,7 +87,10 @@ export default function PersistentDrawerLeft() {
     };
 
     const handleSignOut = () => {
-        signOut(auth).then(r => router.push("/sign-in"));
+        signOut(auth).then(() => {
+            updateUserInfo(null);
+            router.push("/sign-in")
+        });
     }
 
     return (
@@ -107,7 +113,7 @@ export default function PersistentDrawerLeft() {
                     <IconButton
                         color="inherit"
                         aria-label="Sign Out"
-                        onClick={handleSignOut}
+                        onClick={() => handleSignOut()}
                         sx={{ mar: 2 }}
                     >
                         <LogoutIcon />
@@ -134,32 +140,29 @@ export default function PersistentDrawerLeft() {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                        <ListItem key={text} disablePadding>
+                    {teams?.map((team) => (
+                        <ListItem key={team?.name} disablePadding>
                             <ListItemButton>
                                 <ListItemIcon>
-                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                                 </ListItemIcon>
-                                <ListItemText primary={text} />
+                                <ListItemText primary={team?.name} secondary={team?.League?.name}
+                                              onClick={() => setSelectedTeam(team)}/>
                             </ListItemButton>
                         </ListItem>
                     ))}
-                </List>
-                <Divider />
-                <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                        <ListItem key={text} disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
+                    <Divider></Divider>
+                    <ListItem key={'join'} disablePadding>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <AddIcon></AddIcon>
+                            </ListItemIcon>
+                            <ListItemText primary={'Join League'}/>
+                        </ListItemButton>
+                    </ListItem>
                 </List>
             </Drawer>
             <Main open={open}>
+                    <TeamOverview key={selectedTeam?.id} team={selectedTeam}></TeamOverview>
                 <DrawerHeader />
             </Main>
         </Box>

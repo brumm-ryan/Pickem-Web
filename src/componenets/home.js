@@ -1,12 +1,12 @@
+"use client"
 import PersistentDrawerLeft from "@/componenets/drawer";
+import {useRouter} from "next/navigation";
 
 
-export const Home = (props) => {
-    const user = props?.user;
+export const Home = () => {
+    const router = useRouter();
 
-    return(
-        <PersistentDrawerLeft></PersistentDrawerLeft>
-    )
+    return(<PersistentDrawerLeft></PersistentDrawerLeft>)
 }
 
 export default Home

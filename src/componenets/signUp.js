@@ -38,7 +38,7 @@ export const Signup = () => {
                 const user = userCredential.user;
                 console.log(user);
                 createUser(user.uid).then(() => {
-                    router.push("/home");
+                    router.push("/");
                 });
             })
             .catch((error) => {

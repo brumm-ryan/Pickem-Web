@@ -1,46 +1,32 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {onAuthStateChanged} from "firebase/auth";
 import { auth } from '../firebase/firebase';
 import {useRouter} from "next/navigation";
-import {useUser} from "@/context/UserContext";
+import Home from "@/componenets/home";
+import {UserProvider, useUser} from "@/context/UserContext";
 
 const Landing = () => {
-
     const router = useRouter();
-    const { user, updateUser } = useUser();
-    const [token, setToken] = useState({});
+    const { userInfo, updateUserInfo } = useUser();
 
     useEffect(() => {
-        localStorage.setItem('token', JSON.stringify(token));
-    }, [token]);
-
-    useEffect(() => {
-        const token = JSON.parse(localStorage.getItem('token'));
-        if (token) {
-            setToken(token);
-        }
-    }, []);
-
-    useEffect(()=>{
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                const uid = user.uid;
-                updateUser(user);
-                user.getIdToken().then(token => setToken(token));
-                console.log("uid", uid);
+                console.log('user logged in');
             } else {
                 console.log("user is signed out");
-                updateUser({});
-                setToken(null);
                 router.push("/sign-in");
             }
         });
-
     }, []);
 
     return (
-        <div></div>
+        <main>
+            <UserProvider>
+                <Home></Home>
+            </UserProvider>
+        </main>
     )
 }
 

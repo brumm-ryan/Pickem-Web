@@ -19,7 +19,6 @@ export const SignIn = () => {
     const router = useRouter()
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [user, setUser] = useState({});
     const defaultTheme = createTheme();
 
     const onSignIn = (e) => {
@@ -28,9 +27,8 @@ export const SignIn = () => {
             .then((userCredential) => {
                 // Signed in
                 const user = userCredential.user;
-                setUser(user);
                 console.log(user);
-                router.push("/home");
+                router.push("/");
             })
             .catch((error) => {
                 const errorCode = error.code;
